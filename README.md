@@ -14,7 +14,7 @@ Live site: https://staz0r.github.io/react-interview-reset/
 - `counter-practice/`: React counter playground with a JSX editor
 - `downloads/`: downloadable practice bundles
 
-The guides use Highlight.js for readable code examples. The playground editors use CodeMirror for syntax colors and line numbers. The React counter runner loads React and Babel from public CDNs, so it needs an internet connection; the JavaScript lab’s tests run in the browser.
+The guides use Highlight.js for readable code examples. The playground editors use CodeMirror for JavaScript syntax colors and line numbers. The React counter runner loads React and Babel from public CDNs, so it needs an internet connection; the JavaScript lab’s tests run in the browser.
 
 ## Publish with GitHub Pages
 

@@ -25,12 +25,12 @@ button,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1160px;margin
     <main class="panel main">
       <nav class="journey" aria-label="Practice steps"><button class="step active" data-step="0">1. See it</button><button class="step" data-step="1">2. Change it</button><button class="step" data-step="2">3. Add a rule</button><button class="step" data-step="3">4. Recall it</button></nav>
       <div id="prompt" class="prompt"><b>Start here</b><p>Click Run, then try the counter. Notice how the number on screen follows the state.</p></div>
-      <div class="editor-head"><h2>Your React component</h2><small>JavaScript + JSX · syntax highlighted</small></div>
+      <div class="editor-head"><h2>Your React component</h2><small>JavaScript highlighted · JSX remains editable</small></div>
       <p class="footnote">Write the component here. The playground handles React's one-time DOM mount for you. Here, use <code>React.useState</code>; a normal project may import <code>useState</code> from <code>react</code>.</p>
       <textarea id="editor" class="editor" spellcheck="false" aria-label="Editable React code"></textarea>
       <div class="actions"><button id="run" class="btn primary">Run code</button><button id="starter" class="btn">Restore example</button><button id="scaffold" class="btn">Use scaffold</button><button id="clear" class="btn">Clear editor</button></div>
       <div class="preview-wrap"><div class="preview-top"><span>Live preview</span><span id="status" class="status">Ready</span></div><div id="error" class="error" role="alert"></div><iframe id="preview" class="preview" title="React counter preview" src="runner.html" sandbox="allow-scripts"></iframe></div>
-      <p class="footnote">React, JSX tools, and syntax colors load from public CDNs, so this page needs an internet connection. Syntax colors help scan code; running and testing checks behavior.</p>
+      <p class="footnote">React, JSX tools, and JavaScript syntax colors load from public CDNs, so this page needs an internet connection. The JSX remains editable and runnable; syntax colors help scan code, while running checks behavior.</p>
     </main>
     <aside class="panel side">
       <h2>Practice checklist</h2><p>Check each item as he gets it. Progress is saved in this browser.</p>
@@ -52,7 +52,6 @@ button,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1160px;margin
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/jsx/jsx.min.js"></script>
 <script>
 const starterCode=[
 'function CounterApp() {',
@@ -91,7 +90,7 @@ const scaffoldCode=[
 const editor=document.getElementById("editor"), preview=document.getElementById("preview"), status=document.getElementById("status"), errorBox=document.getElementById("error");
 editor.value=starterCode;
 let codeEditor=null;
-if(window.CodeMirror){codeEditor=CodeMirror.fromTextArea(editor,{mode:"jsx",theme:"dracula",lineNumbers:true,lineWrapping:true,tabSize:2,indentUnit:2,matchBrackets:true,extraKeys:{"Tab":"indentMore","Shift-Tab":"indentLess"}})}
+if(window.CodeMirror){codeEditor=CodeMirror.fromTextArea(editor,{mode:"javascript",theme:"dracula",lineNumbers:true,lineWrapping:true,tabSize:2,indentUnit:2,matchBrackets:true,extraKeys:{"Tab":"indentMore","Shift-Tab":"indentLess"}})}
 function readEditorValue(){return codeEditor?codeEditor.getValue():editor.value}
 function setEditorValue(value){if(codeEditor)codeEditor.setValue(value);else editor.value=value}
 function runCode(){errorBox.textContent="";errorBox.classList.remove("show");status.textContent="Running...";preview.contentWindow.postMessage({type:"run",code:btoa(unescape(encodeURIComponent(readEditorValue())))},"*")}
