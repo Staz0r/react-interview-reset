@@ -52,6 +52,10 @@
     @media screen and (max-width:700px) { .page { width:auto; min-height:auto; margin:0; padding:24px; } .footer { position:static; margin-top:32px; } h1 { font-size:34pt; } .grid { grid-template-columns:1fr; } }
     @media screen and (max-width:420px) { .page { padding:18px 15px; } .timeline li { grid-template-columns:55px 1fr; gap:8px; } h1 { font-size:30pt; } }
   </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/styles/github.min.css">
+<style>
+pre.code > code.hljs{display:block;padding:0;background:transparent;color:inherit;font:inherit;line-height:inherit;white-space:inherit;overflow-wrap:inherit}
+</style>
 </head>
 <body>
   <section class="page">
@@ -93,11 +97,11 @@
       <div class="card"><h3>Equals signs</h3><p class="small">One equals assigns a value. Three equals compare values.</p><span class="search">count = 0  /  count === 0</span></div>
     </div>
     <h3 style="margin-top:21px">The easy-to-mix-up part</h3>
-    <div class="code">function handleIncrease() {
+    <pre class="code"><code class="language-javascript">function handleIncrease() {
   setCount(current =&gt; current + 1);
 }
 
-&lt;button onClick={handleIncrease}&gt;Add one&lt;/button&gt;</div>
+&lt;button onClick={handleIncrease}&gt;Add one&lt;/button&gt;</code></pre>
     <div class="callout"><b>Read it out loud:</b> Define a function. When the button is clicked, React calls it. The setter receives a function that calculates the next count from the current count.</div>
     <div class="grid">
       <div class="card mint"><h3>Pass the function</h3><p class="small"><code>onClick={handleIncrease}</code> means "run this after a click."</p></div>
@@ -117,12 +121,12 @@
       <div class="card"><h3>Event handler</h3><p class="small">A function passed to a UI event such as a button click.</p><span class="search">onClick={handleIncrement}</span></div>
     </div>
     <h2 style="margin-top:24px">A small component shape</h2>
-    <div class="code"><span class="key">import</span> { useState } from 'react';
+    <pre class="code"><code class="language-javascript">import { useState } from 'react';
 
-<span class="key">function</span> Counter() {
-  <span class="key">const</span> [count, setCount] = useState(0);
+function Counter() {
+  const [count, setCount] = useState(0);
 
-  <span class="key">return</span> (
+  return (
     &lt;main&gt;
       &lt;h1&gt;Counter&lt;/h1&gt;
       &lt;p&gt;{count}&lt;/p&gt;
@@ -131,7 +135,7 @@
       &lt;/button&gt;
     &lt;/main&gt;
   );
-}</div>
+}</code></pre>
     <div class="callout"><b>Read this in plain English:</b> Start count at zero. Show it. When the button is clicked, calculate the next count. React updates the screen.</div>
     <h3>Remember these small rules</h3>
     <div class="pill-row"><span class="pill">Component names start uppercase</span><span class="pill">Call hooks at the top level</span><span class="pill">Use {count} to show a value</span><span class="pill">Pass a handler; do not call it</span></div>
@@ -143,7 +147,7 @@
     <div class="topline"><span class="brand">Interview Reset</span><span>03 - Counter reference</span></div>
     <h2>Complete example: count up, down, reset</h2>
     <p class="muted">Read it once, then rebuild it from memory. The updater form <code>current =&gt; current + 1</code> makes it clear that the next value comes from the previous value.</p>
-    <div class="code">import { useState } from 'react';
+    <pre class="code"><code class="language-javascript">import { useState } from 'react';
 
 export default function Counter() {
   const [count, setCount] = useState(0);
@@ -169,7 +173,7 @@ export default function Counter() {
       &lt;button onClick={handleIncrease}&gt;Increase&lt;/button&gt;
     &lt;/main&gt;
   );
-}</div>
+}</code></pre>
     <h3>Build it in this order</h3>
     <ol class="steps">
       <li>Write a <code>Counter</code> component that returns a heading and a button.</li>
@@ -212,5 +216,7 @@ export default function Counter() {
     <div class="last"><strong>Keep this in mind:</strong> he has built React before. The interview asks for a small demonstration of fundamentals, not proof that he remembers every API. One working counter and a clear explanation are a solid goal.</div>
     <div class="footer"><span>React interview refresh</span><span>05 / 05</span></div>
   </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/highlight.min.js"></script>
+<script>if(window.hljs)window.hljs.highlightAll();</script>
 </body>
 </html>

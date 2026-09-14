@@ -21,6 +21,10 @@
     @media screen and (max-width:700px){.page{width:auto;min-height:auto;margin:0;padding:24px}.footer{position:static;margin-top:30px}.flow{grid-template-columns:1fr}.files,.syntax-grid{grid-template-columns:1fr}.arrow{height:23px;transform:rotate(90deg)}}
     @media screen and (max-width:420px){.page{padding:18px 15px}h1{font-size:26pt}h2{font-size:19pt}}
   </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/styles/github.min.css">
+<style>
+pre.code > code.hljs{display:block;padding:0;background:transparent;color:inherit;font:inherit;line-height:inherit;white-space:inherit;overflow-wrap:inherit}
+</style>
 </head>
 <body>
   <section class="page">
@@ -43,12 +47,12 @@
       <div class="card"><span class="tag">Optional pieces</span><p class="small"><b>src/Counter.jsx</b> and <b>src/App.css</b><br>Split UI or styling into files when that makes the app easier to read.</p></div>
     </div>
     <h3>What the entry file does</h3>
-    <div class="code">import { createRoot } from 'react-dom/client';
+    <pre class="code"><code class="language-javascript">import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 
 const rootElement = document.getElementById('root');
-createRoot(rootElement).render(&lt;App /&gt;);</div>
+createRoot(rootElement).render(&lt;App /&gt;);</code></pre>
     <p class="small muted">That is the setup step. In an interview, the starter project may already do it for you. Check its files and continue in the existing component; filenames vary by tool and framework.</p>
     <div class="footer"><span>Structure and syntax companion</span><span>01 / 02</span></div>
   </section>
@@ -66,7 +70,7 @@ createRoot(rootElement).render(&lt;App /&gt;);</div>
       <div class="syntax"><h3>Assign vs. compare</h3><p>One equals assigns. Three equals compare.</p><code>count = 0</code> &nbsp; <code>count === 0</code></div>
     </div>
     <h3>Put the patterns together</h3>
-    <div class="code">import { useState } from 'react';
+    <pre class="code"><code class="language-javascript">import { useState } from 'react';
 
 export default function App() {
   const [count, setCount] = useState(0);
@@ -81,7 +85,7 @@ export default function App() {
       &lt;button onClick={handleIncrease}&gt;Add one&lt;/button&gt;
     &lt;/main&gt;
   );
-}</div>
+}</code></pre>
     <div class="check"><b>Say it without jargon</b>
       <ol>
         <li>What two things are named by <code>[count, setCount]</code>?</li>
@@ -100,5 +104,7 @@ export default function App() {
     <p class="small muted">Look up the exact question or error. Read one example, then explain the line and adapt it yourself. In an existing interview project, follow the structure already there rather than adding a new setup.</p>
     <div class="footer"><span>Structure and syntax companion</span><span>02 / 02</span></div>
   </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/highlight.min.js"></script>
+<script>if(window.hljs)window.hljs.highlightAll();</script>
 </body>
 </html>

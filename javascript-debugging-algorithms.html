@@ -19,6 +19,10 @@
     @media screen and (max-width:700px){.page{width:auto;height:auto;min-height:100vh;margin:0;padding:24px}.footer{position:static;margin-top:25px}.rhythm{grid-template-columns:1fr 1fr}.syntax-grid{grid-template-columns:1fr}}
     @media screen and (max-width:420px){.page{padding:18px 15px}.rhythm,.checks{grid-template-columns:1fr}h1{font-size:26pt}}
   </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/styles/github.min.css">
+<style>
+pre.code > code.hljs{display:block;padding:0;background:transparent;color:inherit;font:inherit;line-height:inherit;white-space:inherit;overflow-wrap:inherit}
+</style>
 </head>
 <body>
   <section class="page">
@@ -41,11 +45,11 @@
       <div class="syntax"><h3>Return at the right time</h3><p>Return early when found; otherwise finish the loop first.</p><code>return answer;</code></div>
     </div>
     <div class="card warn"><h3>Common bug: returning during the first loop pass</h3>
-      <div class="code">for (let i = 0; i &lt; numbers.length; i++) {
+      <pre class="code"><code class="language-javascript">for (let i = 0; i &lt; numbers.length; i++) {
   total += numbers[i];
   return total; // stops after one item
 }
-return total; // put this after the loop</div>
+return total; // put this after the loop</code></pre>
     </div>
     <div class="card callout"><h3>When a test fails</h3>
       <ul class="checks">
@@ -91,5 +95,7 @@ return total; // put this after the loop</div>
     </div>
     <div class="footer"><span>JavaScript debugging and algorithms</span><span>02 / 02</span></div>
   </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/highlight.min.js"></script>
+<script>if(window.hljs)window.hljs.highlightAll();</script>
 </body>
 </html>
