@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React Structure and JavaScript Syntax - Quick Companion</title>
+  <style>
+    :root{--ink:#172033;--muted:#536078;--violet:#6047d8;--deep:#4530b0;--pale:#f1efff;--mint:#e7f7f1;--line:#dce1eb}
+    *{box-sizing:border-box}body{margin:0;background:#e9edf4;color:var(--ink);font:10pt/1.48 "Segoe UI",Arial,sans-serif}
+    .page{width:8.5in;min-height:11in;margin:22px auto;padding:.62in .68in .58in;position:relative;background:#fff;box-shadow:0 9px 32px #1c29421a;page-break-after:always}
+    .page:last-child{page-break-after:auto}.top{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;font-size:8pt;font-weight:800}.brand{color:var(--violet)}
+    h1,h2,h3,p{margin-top:0}h1{font-size:31pt;line-height:1.04;letter-spacing:-.04em;margin:31px 0 11px}h2{font-size:21pt;line-height:1.12;letter-spacing:-.03em;margin:23px 0 11px}h3{font-size:11.5pt;margin:0 0 6px}p{margin-bottom:9px}.muted{color:var(--muted)}.lede{font-size:12pt;color:var(--muted);max-width:6.3in}
+    .flow{display:grid;grid-template-columns:1fr 26px 1fr 26px 1fr;align-items:stretch;margin:21px 0}.flow-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fafaff}.flow-card b{display:block;color:var(--deep);font-size:10pt;margin-bottom:5px}.flow-card span{font-size:8.5pt;color:var(--muted)}.arrow{display:grid;place-items:center;color:var(--violet);font-size:17pt;font-weight:800}
+    .files{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.card{border:1px solid var(--line);border-radius:11px;padding:12px 13px;background:#fff}.card p:last-child{margin-bottom:0}.small{font-size:8.6pt}.tag{display:inline-block;background:var(--pale);color:var(--deep);border-radius:99px;padding:4px 8px;font-size:8pt;font-weight:800;margin-bottom:7px}
+    .code{margin:8px 0 11px;padding:12px 14px;border:1px solid #cbd3df;border-radius:10px;background:#f2f4f8;color:#172033;font:8.2pt/1.4 Consolas,"Cascadia Code",monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+    .callout{background:var(--mint);border-left:4px solid #31936d;border-radius:0 10px 10px 0;padding:11px 13px;margin:13px 0}.callout p:last-child{margin-bottom:0}
+    .footer{position:absolute;bottom:.31in;left:.68in;right:.68in;padding-top:8px;border-top:1px solid var(--line);color:#7b8496;display:flex;justify-content:space-between;font-size:8pt}
+    .syntax-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}.syntax{border:1px solid var(--line);border-radius:10px;padding:10px 11px}.syntax h3{color:var(--deep)}.syntax p{font-size:8.7pt;margin:0 0 5px}.syntax code,.search{font-family:Consolas,monospace;font-size:8pt;background:#f2f4f8;border-radius:5px;padding:3px 5px}
+    .check{padding:11px 13px;border:1px solid #d8d2ff;background:#f8f7ff;border-radius:10px;margin:14px 0}.check li{margin:5px 0}.links{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.links a{color:var(--deep);text-decoration:none;border-bottom:1px solid #b9b0fa}
+    @page{size:letter;margin:0}@media print{body{background:#fff}.page{margin:0;box-shadow:none;break-after:page}.page:last-child{break-after:auto}}
+    @media screen and (max-width:700px){.page{width:auto;min-height:auto;margin:0;padding:24px}.footer{position:static;margin-top:30px}.flow{grid-template-columns:1fr}.files,.syntax-grid{grid-template-columns:1fr}.arrow{height:23px;transform:rotate(90deg)}}
+    @media screen and (max-width:420px){.page{padding:18px 15px}h1{font-size:26pt}h2{font-size:19pt}}
+  </style>
+</head>
+<body>
+  <section class="page">
+    <div class="top"><span class="brand">Interview Reset</span><span>Structure first - 01 / 02</span></div>
+    <h1>Where does React code go?</h1>
+    <p class="lede">In a React project, you usually describe the interface with components and JSX. React mounts that component tree into one HTML element, then manages the app UI for you.</p>
+    <div class="flow">
+      <div class="flow-card"><b>1. index.html</b><span>Has an empty mount point: <code>&lt;div id="root"&gt;&lt;/div&gt;</code></span></div>
+      <div class="arrow">-&gt;</div>
+      <div class="flow-card"><b>2. src/main.jsx</b><span>Finds that element once and tells React to render <code>&lt;App /&gt;</code>.</span></div>
+      <div class="arrow">-&gt;</div>
+      <div class="flow-card"><b>3. src/App.jsx</b><span>Describes the UI with components, state, events, and JSX.</span></div>
+    </div>
+    <div class="callout"><b>Does a React developer need to use the DOM?</b><p>React uses the browser DOM to show the interface, but you normally do not edit DOM nodes yourself. Write JSX and update state; React updates the DOM. The one DOM lookup in a simple client app is usually in the entry file when it connects React to <code>#root</code>.</p></div>
+    <h2>A typical small project shape</h2>
+    <div class="files">
+      <div class="card"><span class="tag">HTML shell</span><p class="small"><b>index.html</b><br>Contains <code>&lt;div id="root"&gt;&lt;/div&gt;</code> and loads the app entry file.</p></div>
+      <div class="card"><span class="tag">Entry point</span><p class="small"><b>src/main.jsx</b><br>Imports the app and calls <code>createRoot(...).render(&lt;App /&gt;)</code> once.</p></div>
+      <div class="card"><span class="tag">App component</span><p class="small"><b>src/App.jsx</b><br>The top-level UI. It can contain a counter directly or use smaller components.</p></div>
+      <div class="card"><span class="tag">Optional pieces</span><p class="small"><b>src/Counter.jsx</b> and <b>src/App.css</b><br>Split UI or styling into files when that makes the app easier to read.</p></div>
+    </div>
+    <h3>What the entry file does</h3>
+    <div class="code">import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
+import './index.css';
+
+const rootElement = document.getElementById('root');
+createRoot(rootElement).render(&lt;App /&gt;);</div>
+    <p class="small muted">That is the setup step. In an interview, the starter project may already do it for you. Check its files and continue in the existing component; filenames vary by tool and framework.</p>
+    <div class="footer"><span>Structure and syntax companion</span><span>01 / 02</span></div>
+  </section>
+
+  <section class="page">
+    <div class="top"><span class="brand">Interview Reset</span><span>Syntax you can search - 02 / 02</span></div>
+    <h2>JavaScript syntax in a counter</h2>
+    <p class="muted">Read the line in plain words. You do not have to memorize every symbol if you can recognize the pattern and look up the detail.</p>
+    <div class="syntax-grid">
+      <div class="syntax"><h3>State destructuring</h3><p>React gives a current value and a setter. The brackets name both returned items.</p><code>const [count, setCount] = useState(0)</code></div>
+      <div class="syntax"><h3>Named function</h3><p>Defines a set of instructions to run later. Parentheses after the name call it now.</p><code>function handleClick() { ... }</code></div>
+      <div class="syntax"><h3>Arrow function</h3><p>A compact function. Here it receives the old count and returns the next one.</p><code>current =&gt; current + 1</code></div>
+      <div class="syntax"><h3>JSX braces</h3><p>Inside JSX, braces mean evaluate this JavaScript and show its value.</p><code>&lt;p&gt;{count}&lt;/p&gt;</code></div>
+      <div class="syntax"><h3>Pass vs. call</h3><p>Pass a handler to run after the click; do not call it while rendering.</p><code>onClick={handleClick}</code></div>
+      <div class="syntax"><h3>Assign vs. compare</h3><p>One equals assigns. Three equals compare.</p><code>count = 0</code> &nbsp; <code>count === 0</code></div>
+    </div>
+    <h3>Put the patterns together</h3>
+    <div class="code">import { useState } from 'react';
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  function handleIncrease() {
+    setCount(current =&gt; current + 1);
+  }
+
+  return (
+    &lt;main&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={handleIncrease}&gt;Add one&lt;/button&gt;
+    &lt;/main&gt;
+  );
+}</div>
+    <div class="check"><b>Say it without jargon</b>
+      <ol>
+        <li>What two things are named by <code>[count, setCount]</code>?</li>
+        <li>What does <code>current =&gt; current + 1</code> return?</li>
+        <li>Why is the handler passed as <code>onClick={handleIncrease}</code>?</li>
+      </ol>
+      <p class="small"><b>Answers:</b> the current value and its setter; the next count; React should call the function after a click.</p>
+    </div>
+    <h3>Good searches when a symbol slips</h3>
+    <div class="links">
+      <a href="https://react.dev/reference/react-dom/client/createRoot">React createRoot</a>
+      <a href="https://react.dev/reference/react/useState">React useState</a>
+      <a href="https://react.dev/learn/responding-to-events">React event handlers</a>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">JavaScript destructuring</a>
+    </div>
+    <p class="small muted">Look up the exact question or error. Read one example, then explain the line and adapt it yourself. In an existing interview project, follow the structure already there rather than adding a new setup.</p>
+    <div class="footer"><span>Structure and syntax companion</span><span>02 / 02</span></div>
+  </section>
+</body>
+</html>

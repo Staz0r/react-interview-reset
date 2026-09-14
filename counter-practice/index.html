@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A tiny guided React counter exercise for interview practice.">
+<title>React Counter Practice</title>
+<style>
+:root{--ink:#172033;--muted:#536078;--line:#dce1eb;--violet:#6047d8;--deep:#4530b0;--lav:#f1efff;--mint:#e7f7f1;--navy:#151b2c}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:radial-gradient(circle at 8% 0,#ece9ff,transparent 28rem),#f4f5fb;font:15px/1.5 "Segoe UI",Arial,sans-serif}
+button,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1160px;margin:auto;padding:26px 24px 52px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px}.brand{font-weight:850;letter-spacing:-.03em}.brand span{color:var(--violet)}.tag,.muted{color:var(--muted)}.tag{font-size:13px}.hero{max-width:800px;margin-bottom:24px}.eyebrow{color:var(--violet);font-size:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:800}.hero h1{font-size:clamp(36px,6vw,62px);line-height:1.02;letter-spacing:-.055em;margin:10px 0 13px}.hero p{font-size:18px;color:var(--muted);max-width:680px}.confidence{color:var(--deep);background:var(--lav);display:inline-block;border-radius:20px;padding:7px 12px;font-weight:700;font-size:13px}
+.layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:18px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 40px #202b4610}.main{padding:22px}.side{padding:21px;position:sticky;top:18px}.journey{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}.step,.btn{border:1px solid var(--line);border-radius:9px;color:var(--muted);background:white;padding:8px 11px;font-size:12px;font-weight:750}.step{border-radius:99px}.step.active{background:var(--lav);border-color:#d2ccff;color:var(--deep)}.prompt{padding:15px 17px;background:#f8f7ff;border:1px solid #e5e1ff;border-radius:12px;margin-bottom:18px}.prompt b{display:block;color:var(--deep);font-size:12px;text-transform:uppercase;margin-bottom:4px}.prompt p{margin:0}.editor-head{display:flex;justify-content:space-between;align-items:center;margin:13px 0 8px}.editor-head h2,.side h2{font-size:17px;margin:0}.editor{width:100%;min-height:330px;resize:vertical;border:1px solid #30384b;border-radius:12px;background:var(--navy);color:#e3e8f2;padding:16px;font:13px/1.55 Consolas,monospace;tab-size:2}.editor:focus{outline:3px solid #c7beff}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:11px 0 18px}.btn{color:var(--ink);font-size:13px}.btn:hover{border-color:#bdb5ff}.btn.primary{background:var(--violet);border-color:var(--violet);color:white}.preview-wrap{border:1px solid var(--line);border-radius:13px;overflow:hidden}.preview-top{padding:10px 13px;background:#f8f9fc;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;font-weight:800}.status{color:#197a58}.preview{display:block;width:100%;height:250px;border:0;background:white}.error{display:none;color:#a1273d;background:#fff0f1;padding:9px 12px;font-size:12px}.error.show{display:block}.footnote{font-size:12px;color:var(--muted);margin-top:9px}.side h2{margin-bottom:10px}.side p{font-size:13px;color:var(--muted)}.goal-list{padding:0;list-style:none;margin:15px 0}.goal-list li{padding:10px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;font-size:13px}.goal-list input{accent-color:var(--violet);margin-top:4px}.side-section{border-top:1px solid var(--line);padding-top:15px;margin-top:15px}.side-section h3{font-size:13px;margin:0 0 8px}.hint,.quiz{border-radius:11px;padding:12px;font-size:13px}.hint{background:var(--mint);color:#255341}.quiz{background:#fff6e3}.answer{display:none;margin-top:7px}.answer.show{display:block}.searches{display:grid;gap:7px}.searches a{color:var(--deep);font-size:12px}.syntax-key details{border-bottom:1px solid var(--line);padding:8px 0;font-size:12px}.syntax-key summary{cursor:pointer;font-weight:700}.syntax-key p{margin:5px 0 1px!important;font-size:12px!important}.bottom{margin:18px 0 0;text-align:center;color:var(--muted);font-size:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.side{position:static}}@media(max-width:520px){.wrap{padding:18px 13px 30px}.tag{display:none}.main,.side{padding:15px}.editor{font-size:11px;min-height:280px}.hero p{font-size:16px}}
+.panel{border-radius:16px;box-shadow:0 10px 34px #202b4610}
+@media(max-width:420px){.wrap{padding:16px 10px 28px}.journey{gap:5px}.step{padding:7px 9px;font-size:11px}.main,.side{padding:13px}.editor{font-size:10px;min-height:250px}.actions .btn{flex:1 1 calc(50% - 8px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><div class="brand"><span>IR</span> Interview Reset</div><div class="tag">A small, hands-on interview warm-up</div></header>
+  <section class="hero"><div class="eyebrow">One component. One piece of state. You can do this.</div><h1>Make a counter,<br>get your React rhythm back.</h1><p>Use this browser playground to read, change, and rebuild a counter. Keep the goal simple: make it work, then explain what each piece does.</p><div class="confidence">You've built React before. This is a refresh, not a relearn.</div></section>
+  <div class="layout">
+    <main class="panel main">
+      <nav class="journey" aria-label="Practice steps"><button class="step active" data-step="0">1. See it</button><button class="step" data-step="1">2. Change it</button><button class="step" data-step="2">3. Add a rule</button><button class="step" data-step="3">4. Recall it</button></nav>
+      <div id="prompt" class="prompt"><b>Start here</b><p>Click Run, then try the counter. Notice how the number on screen follows the state.</p></div>
+      <div class="editor-head"><h2>Your React component</h2><small>Editable JSX</small></div>
+      <p class="footnote">Write the component here. The playground handles React's one-time DOM mount for you. Here, use <code>React.useState</code>; a normal project may import <code>useState</code> from <code>react</code>.</p>
+      <textarea id="editor" class="editor" spellcheck="false" aria-label="Editable React code"></textarea>
+      <div class="actions"><button id="run" class="btn primary">Run code</button><button id="starter" class="btn">Restore example</button><button id="scaffold" class="btn">Use scaffold</button><button id="clear" class="btn">Clear editor</button></div>
+      <div class="preview-wrap"><div class="preview-top"><span>Live preview</span><span id="status" class="status">Ready</span></div><div id="error" class="error" role="alert"></div><iframe id="preview" class="preview" title="React counter preview" src="runner.html" sandbox="allow-scripts"></iframe></div>
+      <p class="footnote">This page loads React and JSX tools from public CDNs, so it needs an internet connection. Your code stays in this browser tab.</p>
+    </main>
+    <aside class="panel side">
+      <h2>Practice checklist</h2><p>Check each item as he gets it. Progress is saved in this browser.</p>
+      <ul class="goal-list"><li><input type="checkbox" data-check="state"><label>I can explain what <code>useState(0)</code> gives me.</label></li><li><input type="checkbox" data-check="render"><label>I can show the state value in JSX.</label></li><li><input type="checkbox" data-check="event"><label>I can connect a click to a state update.</label></li><li><input type="checkbox" data-check="test"><label>I can test the prompt's edge case.</label></li></ul>
+      <div class="hint"><b>Good interview narration</b><br>"I'll store the count in state, render it, and update it in button handlers. I'll start with the basic behavior and test the boundary."</div>
+      <div class="side-section"><h3>Quick knowledge check</h3><div class="quiz"><b>Which form passes the handler?</b><br><code>onClick={handleClick}</code> or <code>onClick={handleClick()}</code>?<br><button id="answerButton" class="btn">Show answer</button><div id="answer" class="answer"><b>Pass it:</b> <code>onClick={handleClick}</code>. With parentheses, it runs during render.</div></div></div>
+      <div class="side-section"><h3>JavaScript syntax decoder</h3><div class="syntax-key">
+        <details><summary><code>const [count, setCount] = ...</code></summary><p>Destructuring gives two names: the current value and the function that updates it.</p></details>
+        <details><summary><code>current =&gt; current + 1</code></summary><p>An arrow function receives current and returns the next value.</p></details>
+        <details><summary><code>{count}</code></summary><p>JSX braces mean: evaluate this JavaScript expression and show its value.</p></details>
+        <details><summary><code>handleClick</code> vs <code>handleClick()</code></summary><p>The first is the function. Parentheses call it now.</p></details>
+        <details><summary><code>=</code> vs <code>===</code></summary><p>One equals assigns. Three equals compare.</p></details>
+      </div><div class="quiz" style="margin-top:10px"><b>Micro-drill:</b> What does <code>current =&gt; current - 1</code> do?<br><button id="syntaxAnswerButton" class="btn">Show one-line answer</button><div id="syntaxAnswer" class="answer">It is a function that takes the current count and returns one less.</div></div></div>
+      <div class="side-section"><h3>Official docs to search</h3><div class="searches"><a href="https://react.dev/reference/react/useState" target="_blank" rel="noreferrer">React useState reference</a><a href="https://react.dev/learn/responding-to-events" target="_blank" rel="noreferrer">React: responding to events</a><a href="https://react.dev/learn/your-first-component" target="_blank" rel="noreferrer">React: your first component</a></div></div>
+      <div class="side-section"><h3>Time-box it</h3><p>About an hour is plenty for a refresher: read, build, change one requirement, then rebuild without looking. Call it done and rest.</p></div>
+    </aside>
+  </div>
+  <p class="bottom">Small steps are real progress. The point is to think clearly, not remember every React API.</p>
+</div>
+<script>
+const starterCode=[
+'function CounterApp() {',
+'  const [count, setCount] = React.useState(0);',
+'',
+'  function handleIncrease() { setCount(current => current + 1); }',
+'  function handleDecrease() { setCount(current => current - 1); }',
+'  function handleReset() { setCount(0); }',
+'',
+'  return (',
+'    <main>',
+'      <h1>Counter</h1>',
+'      <p>Count: {count}</p>',
+'      <button onClick={handleDecrease}>Decrease</button>',
+'      <button onClick={handleReset}>Reset</button>',
+'      <button onClick={handleIncrease}>Increase</button>',
+'    </main>',
+'  );',
+'}'
+].join('\n');
+const scaffoldCode=[
+'function CounterApp() {',
+'  const [count, setCount] = React.useState(0);',
+'',
+'  // TODO: write a function that increases count',
+'',
+'  return (',
+'    <main>',
+'      <h1>Counter</h1>',
+'      <p>Count: {count}</p>',
+'      {/* TODO: add a button and pass your handler to onClick */}',
+'    </main>',
+'  );',
+'}'
+].join('\n');
+const editor=document.getElementById("editor"), preview=document.getElementById("preview"), status=document.getElementById("status"), errorBox=document.getElementById("error");
+editor.value=starterCode;
+function runCode(){errorBox.textContent="";errorBox.classList.remove("show");status.textContent="Running...";preview.contentWindow.postMessage({type:"run",code:btoa(unescape(encodeURIComponent(editor.value)))},"*")}
+document.getElementById("run").addEventListener("click",runCode);
+document.getElementById("starter").addEventListener("click",()=>{editor.value=starterCode;runCode()});
+document.getElementById("scaffold").addEventListener("click",()=>{editor.value=scaffoldCode;runCode()});
+document.getElementById("clear").addEventListener("click",()=>{editor.value="";runCode()});
+preview.addEventListener("load",()=>{if(editor.value)runCode()});
+window.addEventListener("message",event=>{if(!event.data||!event.data.type)return;if(event.data.type==="ready")runCode();if(event.data.type==="ran")status.textContent="Running React app";if(event.data.type==="empty")status.textContent="Preview cleared";if(event.data.type==="error"){status.textContent="Needs a quick fix";errorBox.textContent=event.data.message;errorBox.classList.add("show")}});
+window.addEventListener("load",()=>setTimeout(runCode,150));
+document.querySelectorAll(".step").forEach(button=>button.addEventListener("click",()=>{document.querySelectorAll(".step").forEach(item=>item.classList.toggle("active",item===button));const prompts=[["Start here","Click Run, then try the counter. Notice how the number on screen follows the state."],["Change it","Change the starting value to 5. Run it. Then add a button that increases by 2 instead of 1."],["Add a rule","Try a common follow-up: the count may not go below zero. Clamp the value or disable Decrease at zero."],["Recall it","Rebuild from the scaffold first. If that feels manageable, clear the editor and try again without looking."]];const i=Number(button.dataset.step);document.querySelector("#prompt b").textContent=prompts[i][0];document.querySelector("#prompt p").textContent=prompts[i][1];if(i===3){editor.value=scaffoldCode;runCode()}}));
+document.getElementById("answerButton").addEventListener("click",()=>document.getElementById("answer").classList.toggle("show"));
+document.getElementById("syntaxAnswerButton").addEventListener("click",()=>document.getElementById("syntaxAnswer").classList.toggle("show"));
+document.querySelectorAll("[data-check]").forEach(box=>{const key="react-reset-"+box.dataset.check;box.checked=localStorage.getItem(key)==="true";box.addEventListener("change",()=>localStorage.setItem(key,String(box.checked)))});
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>React preview runner</title>
+<style>body{margin:0;color:#172033}button{padding:8px 12px;margin:3px;border:1px solid #d4d9e4;border-radius:7px;background:#fff;cursor:pointer;font-size:14px}button:focus-visible{outline:3px solid #b5aaff}main{font-family:Arial,sans-serif;text-align:center;padding:24px}</style>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div><div id="runtime-error" style="display:none;color:#9f2339;background:#fff0f1;padding:14px;font:13px Arial,sans-serif"></div>
+<script>
+let appRoot=null;
+function sendError(message){const box=document.getElementById("runtime-error");box.style.display="block";box.textContent="Check the code: "+message;parent.postMessage({type:"error",message:String(message)},"*")}
+window.addEventListener("error",event=>sendError(event.message));
+window.addEventListener("message",event=>{if(!event.data||event.data.type!=="run")return;try{document.getElementById("runtime-error").style.display="none";const source=decodeURIComponent(escape(atob(event.data.code)));if(!source.trim()){appRoot.render(null);parent.postMessage({type:"empty"},"*");return}const js=Babel.transform(source,{presets:[["react",{runtime:"classic"}]]}).code;const CounterApp=new Function("React",js+"\n;return typeof CounterApp === 'function' ? CounterApp : null;")(React);if(!CounterApp)throw new Error("Write a component named CounterApp, for example: function CounterApp() { return <main>Hello</main>; }");appRoot.render(React.createElement(CounterApp));parent.postMessage({type:"ran"},"*")}catch(error){sendError(error.message)}});
+window.addEventListener("load",()=>{if(window.React&&window.ReactDOM&&window.Babel){appRoot=ReactDOM.createRoot(document.getElementById("root"));parent.postMessage({type:"ready"},"*")}else sendError("React or JSX did not load. Check the internet connection and refresh.")});
+</script>
+</body>
+</html>

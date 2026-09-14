@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A small, self-contained JavaScript debugging and algorithms practice lab.">
+  <title>JavaScript Debugging and Algorithms Practice Lab</title>
+  <style>
+    :root{--ink:#172033;--muted:#536078;--line:#dce1eb;--violet:#6047d8;--deep:#4530b0;--pale:#f1efff;--navy:#151b2c;--green:#197a58}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 8% 0,#ece9ff,transparent 28rem),#f4f5fb;color:var(--ink);font:15px/1.5 "Segoe UI",Arial,sans-serif}
+    button,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1120px;margin:auto;padding:25px 22px 50px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.brand{font-weight:850;letter-spacing:-.03em}.brand b{color:var(--violet)}.tag{color:var(--muted);font-size:13px}
+    .hero{max-width:760px;margin-bottom:22px}.eyebrow{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--violet);font-weight:800}.hero h1{font-size:clamp(34px,5vw,55px);line-height:1.04;letter-spacing:-.05em;margin:8px 0 11px}.hero p{color:var(--muted);font-size:17px;margin:0}.calm{display:inline-block;margin-top:11px;border-radius:20px;background:var(--pale);color:var(--deep);padding:6px 11px;font-size:12px;font-weight:750}
+    .layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:17px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 34px #202b4610}.tasks{padding:17px;position:sticky;top:15px}.tasks h2,.work h2{font-size:17px;margin:0 0 11px}.task{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:9px;background:white;padding:10px 11px;margin:7px 0;color:var(--ink);font-size:13px;font-weight:750}.task small{display:block;color:var(--muted);font-size:11px;font-weight:500}.task:hover{border-color:#bdb5ff}.task.active{background:var(--pale);border-color:#d2ccff;color:var(--deep)}
+    .tasks-note{border-top:1px solid var(--line);padding-top:12px;margin-top:14px;font-size:12px;color:var(--muted)}.work{padding:20px}.prompt{padding:13px 15px;background:#f8f7ff;border:1px solid #e5e1ff;border-radius:11px;margin:10px 0 14px}.prompt p{margin:0}.examples{font:12px/1.5 Consolas,"Cascadia Code",monospace;white-space:pre-wrap;margin-top:8px;color:#33405a}.editor-head{display:flex;justify-content:space-between;align-items:center;margin:12px 0 7px}.editor-head h3{font-size:14px;margin:0}.editor-head span{font-size:11px;color:var(--muted)}.editor{display:block;width:100%;min-height:300px;resize:vertical;border:1px solid #30384b;border-radius:11px;background:var(--navy);color:#e3e8f2;padding:14px;font:13px/1.55 Consolas,"Cascadia Code",monospace;tab-size:2}.editor:focus{outline:3px solid #c7beff}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.btn{border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink);padding:8px 11px;font-size:12px;font-weight:750}.btn:hover{border-color:#bdb5ff}.btn.primary{background:var(--violet);border-color:var(--violet);color:white}.btn:disabled{opacity:.5;cursor:wait}.hint,.solution,.results{border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin:9px 0;font-size:13px}.hint{display:none;background:#fff7e6;border-color:#f0dfb9}.hint.show{display:block}.solution{display:none;background:#f6f8fb}.solution.show{display:block}.solution pre{white-space:pre-wrap;margin:7px 0 0;font:12px/1.5 Consolas,monospace}.results{background:#f8f9fc}.results h3{font-size:13px;margin:0 0 7px}.result{border-top:1px solid var(--line);padding:7px 0;font:11px/1.45 Consolas,monospace;overflow-wrap:anywhere}.pass{color:var(--green)}.fail{color:#a1273d}.small{font-size:11px;color:var(--muted)}.foot{margin-top:18px;text-align:center;font-size:12px;color:var(--muted)}.runner{position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none}
+    @media(max-width:760px){.layout{grid-template-columns:1fr}.tasks{position:static}.task{display:inline-block;width:auto;min-width:46%;vertical-align:top}.tasks-note{display:none}.work{padding:15px}.editor{min-height:260px}.tag{display:none}}
+    @media(max-width:420px){.wrap{padding:16px 10px 28px}.task{display:block;width:100%;min-width:0}.work{padding:13px}.editor{min-height:240px;font-size:12px}.actions .btn{flex:1 1 calc(50% - 8px)}.examples{font-size:11px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top"><div class="brand"><b>IR</b> Interview Reset</div><div class="tag">Local practice · No build step · No AI</div></header>
+    <section class="hero"><div class="eyebrow">Trace it. Fix it. Test it.</div><h1>A small JavaScript practice lab.</h1><p>Work through one debugging task and three beginner array/string problems. Read the prompt, write a function, run the tests, then use a hint or sample only if you need it.</p><div class="calm">Search syntax if it slips. Explain the steps in your own words.</div></section>
+    <div class="layout">
+      <aside class="panel tasks"><h2>Choose one task</h2>
+        <button class="task active" data-task="debug">Fix the early return<small>Debugging · loop and return</small></button>
+        <button class="task" data-task="positive">Sum positive numbers<small>Array · loop and condition</small></button>
+        <button class="task" data-task="vowels">Count vowels<small>String · loop and condition</small></button>
+        <button class="task" data-task="twoSum">Find a pair<small>Array · nested loops</small></button>
+        <div class="tasks-note">Suggested order: fix the bug, complete one easy problem, then try another only if time and energy remain.</div>
+      </aside>
+      <main class="panel work">
+        <h2 id="title">Fix the early return</h2>
+        <div class="prompt"><p id="prompt"></p><div class="examples" id="examples"></div></div>
+        <div class="editor-head"><h3>Your JavaScript function</h3><span>Keep the required function name</span></div>
+        <textarea id="editor" class="editor" spellcheck="false" aria-label="JavaScript code editor"></textarea>
+        <div class="actions"><button id="run" class="btn primary" disabled>Run tests</button><button id="hintButton" class="btn">Show hint</button><button id="solutionButton" class="btn">Show sample solution</button><button id="resetButton" class="btn">Reset task</button></div>
+        <div id="hint" class="hint" aria-live="polite"></div>
+        <div id="solution" class="solution"><b>Sample solution</b><pre id="solutionCode"></pre></div>
+        <div id="results" class="results" aria-live="polite"><h3>Test results</h3><div id="resultRows" class="small">Run the tests to check your function.</div></div>
+        <p class="small">The runner executes inside a sandboxed browser frame. The page needs no CDN or internet connection.</p>
+      </main>
+    </div>
+    <p class="foot">When a test fails: read the output, trace one example by hand, change one thing, and run the full set again.</p>
+    <iframe id="runner" class="runner" title="Isolated JavaScript test runner" sandbox="allow-scripts"></iframe>
+  </div>
+<script>
+const exercises={
+  debug:{title:"Fix the early return",prompt:"This function should return the sum of all numbers. It currently returns too soon. Move or change code until every test passes.",examples:"sumAll([2, 5, 1]) → 8\nsumAll([]) → 0\nsumAll([-1]) → -1",fn:"sumAll",hint:"The return inside the loop ends the entire function on its first pass. Add each item first, then return the total after the loop. Also decide what happens for an empty array.",starter:`function sumAll(numbers) {
+  let total = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    total += numbers[i];
+    return total; // BUG: this stops after the first item
+  }
+}`,solution:`function sumAll(numbers) {
+  let total = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    total += numbers[i];
+  }
+  return total;
+}`,tests:[{args:[[2,5,1]],expected:8},{args:[[]],expected:0},{args:[[-1]],expected:-1}]},
+  positive:{title:"Sum positive numbers",prompt:"Write sumPositive(numbers). Return the sum of values greater than zero. If there are no positive values, return 0.",examples:"sumPositive([3, -2, 5]) → 8\nsumPositive([]) → 0\nsumPositive([-4, 0]) → 0",fn:"sumPositive",hint:"Start total at 0. Loop through the array. If the current number is greater than 0, add it. Return after the loop.",starter:`function sumPositive(numbers) {
+  let total = 0;
+  // TODO: loop through numbers and add only positive values
+  return total;
+}`,solution:`function sumPositive(numbers) {
+  let total = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    if (numbers[i] > 0) {
+      total += numbers[i];
+    }
+  }
+  return total;
+}`,tests:[{args:[[3,-2,5]],expected:8},{args:[[]],expected:0},{args:[[-4,0]],expected:0}]},
+  vowels:{title:"Count vowels",prompt:"Write countVowels(text). Count a, e, i, o, u without caring about letter case. The empty string returns 0.",examples:'countVowels("React") → 2\ncountVowels("WHY") → 0\ncountVowels("") → 0',fn:"countVowels",hint:"Use text.toLowerCase() once. Loop through its characters and check whether the current character is one of a, e, i, o, u.",starter:`function countVowels(text) {
+  let count = 0;
+  // TODO: normalize case, loop through characters, count vowels
+  return count;
+}`,solution:`function countVowels(text) {
+  const lowerText = text.toLowerCase();
+  const vowels = "aeiou";
+  let count = 0;
+  for (let i = 0; i < lowerText.length; i++) {
+    if (vowels.includes(lowerText[i])) {
+      count++;
+    }
+  }
+  return count;
+}`,tests:[{args:["React"],expected:2},{args:["WHY"],expected:0},{args:[""],expected:0}]},
+  twoSum:{title:"Find a pair",prompt:"Write twoSum(numbers, target). Return the indexes of two different numbers that add to target. Return [] when no pair exists.",examples:"twoSum([2, 7, 11, 15], 9) → [0, 1]\ntwoSum([3, 3], 6) → [0, 1]\ntwoSum([1, 2], 8) → []",fn:"twoSum",hint:"Use two loops. Let j start at i + 1 so an item cannot pair with itself or be checked twice. Return [i, j] as soon as a pair matches.",starter:`function twoSum(numbers, target) {
+  // TODO: check every pair of different indexes
+  return [];
+}`,solution:`function twoSum(numbers, target) {
+  for (let i = 0; i < numbers.length; i++) {
+    for (let j = i + 1; j < numbers.length; j++) {
+      if (numbers[i] + numbers[j] === target) {
+        return [i, j];
+      }
+    }
+  }
+  return [];
+}`,tests:[{args:[[2,7,11,15],9],expected:[0,1]},{args:[[3,3],6],expected:[0,1]},{args:[[1,2],8],expected:[]}]}
+};
+const runnerFrame=document.getElementById("runner"),editor=document.getElementById("editor"),runButton=document.getElementById("run");
+let selected="debug";
+function showTask(key){selected=key;const task=exercises[key];document.querySelectorAll(".task").forEach(button=>button.classList.toggle("active",button.dataset.task===key));document.getElementById("title").textContent=task.title;document.getElementById("prompt").textContent=task.prompt;document.getElementById("examples").textContent=task.examples;editor.value=task.starter;document.getElementById("hint").textContent=task.hint;document.getElementById("hint").classList.remove("show");document.getElementById("solutionCode").textContent=task.solution;document.getElementById("solution").classList.remove("show");document.getElementById("resultRows").textContent="Run the tests to check your function."}
+document.querySelectorAll(".task").forEach(button=>button.addEventListener("click",()=>showTask(button.dataset.task)));
+document.getElementById("hintButton").addEventListener("click",()=>document.getElementById("hint").classList.toggle("show"));
+document.getElementById("solutionButton").addEventListener("click",()=>document.getElementById("solution").classList.toggle("show"));
+document.getElementById("resetButton").addEventListener("click",()=>showTask(selected));
+runButton.addEventListener("click",()=>{runButton.disabled=true;runButton.textContent="Testing...";document.getElementById("resultRows").textContent="Running tests…";runnerFrame.contentWindow.postMessage({type:"run",code:editor.value,fn:exercises[selected].fn,tests:exercises[selected].tests},"*")});
+window.addEventListener("message",event=>{if(event.source!==runnerFrame.contentWindow||!event.data||event.data.type!=="results")return;runButton.disabled=false;runButton.textContent="Run tests";const rows=document.getElementById("resultRows");rows.replaceChildren();if(event.data.error){rows.textContent=event.data.error;rows.className="fail";return}const passed=event.data.results.filter(result=>result.pass).length;const summary=document.createElement("p");summary.textContent=`${passed} of ${event.data.results.length} tests passed`;summary.className=passed===event.data.results.length?"pass":"fail";rows.append(summary);event.data.results.forEach((result,index)=>{const row=document.createElement("div");row.className=`result ${result.pass?"pass":"fail"}`;row.textContent=`${result.pass?"PASS":"FAIL"} ${index+1} · input ${result.input} · expected ${result.expected} · got ${result.actual}`;if(result.error)row.textContent+=` · ${result.error}`;rows.append(row)})});
+const runnerSource=`<!doctype html><html><body><script>
+function printable(value){if(typeof value==="undefined")return "undefined";try{return JSON.stringify(value)}catch(error){return String(value)}}
+window.addEventListener("message",function(event){const data=event.data;if(!data||data.type!=="run")return;try{const fn=new Function(data.code+"\\n; return typeof "+data.fn+" === 'function' ? "+data.fn+" : null;")();if(typeof fn!=="function")throw new Error("Define a function named "+data.fn+".");const results=data.tests.map(function(test){try{const actual=fn.apply(null,test.args);return {pass:JSON.stringify(actual)===JSON.stringify(test.expected),input:printable(test.args),expected:printable(test.expected),actual:printable(actual)}}catch(error){return {pass:false,input:printable(test.args),expected:printable(test.expected),actual:"threw an error",error:error.message}}});parent.postMessage({type:"results",results:results},"*")}catch(error){parent.postMessage({type:"results",error:error.message},"*")}});
+<\/script></body></html>`;
+runnerFrame.srcdoc=runnerSource;runnerFrame.addEventListener("load",()=>runButton.disabled=false);showTask("debug");
+</script>
+</body>
+</html>

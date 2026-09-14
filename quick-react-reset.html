@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React Reset - Counter Interview Quick Guide</title>
+  <style>
+    :root { --ink:#172033; --muted:#536078; --violet:#6047d8; --violet-dark:#4530b0; --pale:#f1efff; --mint:#e7f7f1; --line:#dce1eb; --paper:#fff; --gold:#f3b94f; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#e9edf4; color:var(--ink); font:10pt/1.47 "Segoe UI",Arial,sans-serif; }
+    .page { width:8.5in; min-height:11in; margin:22px auto; padding:.62in .68in .58in; background:var(--paper); position:relative; box-shadow:0 9px 32px #1c29421a; page-break-after:always; }
+    .page:last-child { page-break-after:auto; }
+    .topline { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:8pt; text-transform:uppercase; letter-spacing:.11em; font-weight:700; border-bottom:1px solid var(--line); padding-bottom:10px; }
+    .brand { color:var(--violet); }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { font-size:37pt; line-height:1.02; letter-spacing:-.045em; margin:34px 0 14px; max-width:6in; }
+    h2 { font-size:22pt; line-height:1.12; letter-spacing:-.03em; margin:28px 0 14px; }
+    h3 { font-size:12pt; margin:0 0 7px; }
+    p { margin-bottom:10px; }
+    .lede { max-width:6in; color:var(--muted); font-size:13pt; line-height:1.48; }
+    .eyebrow { color:var(--violet); font-size:9pt; font-weight:800; text-transform:uppercase; letter-spacing:.13em; margin:22px 0 0; }
+    .tag { display:inline-block; background:var(--pale); color:var(--violet-dark); font-size:8pt; font-weight:800; padding:5px 9px; border-radius:99px; letter-spacing:.02em; }
+    .hero-box { margin-top:24px; padding:18px 20px; background:#f6f5ff; border-left:4px solid var(--violet); border-radius:0 12px 12px 0; }
+    .hero-box p:last-child { margin-bottom:0; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin:17px 0; }
+    .card { padding:13px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; }
+    .mint { background:var(--mint); border-color:#cce9dd; }
+    .gold { background:#fff8e9; border-color:#f4e1b6; }
+    .muted { color:var(--muted); }
+    .small { font-size:8.5pt; }
+    .timeline { margin:17px 0 0; padding:0; list-style:none; }
+    .timeline li { display:grid; grid-template-columns:70px 1fr; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); }
+    .timeline b { color:var(--violet-dark); }
+    .pill-row { display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 0; }
+    .pill { border:1px solid var(--line); border-radius:8px; padding:6px 9px; color:var(--muted); font-size:8.5pt; }
+    .code { margin:9px 0 13px; padding:15px 16px; border-radius:12px; background:#111827; color:#e5e7eb; font:8.5pt/1.42 Consolas,"Cascadia Code",monospace; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .code .key { color:#c4b5fd; }
+    .steps { counter-reset:step; list-style:none; margin:10px 0; padding:0; }
+    .steps li { counter-increment:step; padding:7px 0 7px 36px; position:relative; }
+    .steps li:before { content:counter(step); position:absolute; left:0; top:5px; width:23px; height:23px; border-radius:50%; background:var(--pale); color:var(--violet-dark); display:grid; place-items:center; font-weight:800; font-size:9pt; }
+    .callout { padding:11px 13px; border-radius:10px; background:var(--mint); margin:13px 0; }
+    .mistakes { width:100%; border-collapse:collapse; font-size:9pt; margin-top:13px; }
+    .mistakes td,.mistakes th { border-bottom:1px solid var(--line); padding:8px 7px; vertical-align:top; text-align:left; }
+    .mistakes th { color:var(--muted); font-size:8pt; text-transform:uppercase; letter-spacing:.08em; }
+    .search { padding:4px 7px; display:inline-block; background:#f2f4f8; border-radius:5px; font-family:Consolas,monospace; font-size:8pt; }
+    .footer { position:absolute; bottom:.31in; left:.68in; right:.68in; padding-top:8px; border-top:1px solid var(--line); color:#7b8496; display:flex; justify-content:space-between; font-size:8pt; }
+    a { color:var(--violet-dark); text-decoration:none; }
+    .last { margin-top:16px; padding:15px 16px; background:#172033; color:#fff; border-radius:12px; }
+    .last strong { color:#cfc5ff; }
+    @page { size:letter; margin:0; }
+    @media print { body { background:#fff; } .page { margin:0; box-shadow:none; break-after:page; } .page:last-child { break-after:auto; } .code { background:#f2f4f8; color:#172033; border:1px solid #cbd3df; } .code .key { color:#4935a8; } }
+    @media screen and (max-width:700px) { .page { width:auto; min-height:auto; margin:0; padding:24px; } .footer { position:static; margin-top:32px; } h1 { font-size:34pt; } .grid { grid-template-columns:1fr; } }
+    @media screen and (max-width:420px) { .page { padding:18px 15px; } .timeline li { grid-template-columns:55px 1fr; gap:8px; } h1 { font-size:30pt; } }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <div class="topline"><span class="brand">Interview Reset</span><span>React quick guide</span></div>
+    <p class="eyebrow">A short, practical refresher</p>
+    <h1>Build the counter.<br>Explain your thinking.</h1>
+    <p class="lede">You have built with React before. This is a warm-up, not a relearn. For a simple coding interview, make one small thing work, check it, and talk through your choices.</p>
+    <div class="hero-box">
+      <span class="tag">THE WHOLE IDEA</span>
+      <p style="font-size:14pt;margin:11px 0 4px"><b>State changes -&gt; React renders the new UI.</b></p>
+      <p class="muted">A counter is just a number in state, displayed in JSX, with buttons that request the next number.</p>
+    </div>
+    <h2>One focused day is enough for a refresher</h2>
+    <p class="muted">Aim for about an hour. Stop when you can rebuild and explain the small example. Rest will help more than an all-nighter.</p>
+    <ul class="timeline">
+      <li><b>10 min</b><span>Read the <a href="react-structure-and-syntax.html">structure-and-syntax companion</a>, then pages 2-5. Say the React mental model out loud.</span></li>
+      <li><b>20 min</b><span>Use the interactive practice page. Run the starter, then change it.</span></li>
+      <li><b>20 min</b><span>Rebuild from the playground scaffold, then clear the editor if he wants a harder recall round.</span></li>
+      <li><b>10 min</b><span>Explain state, event handlers, and one edge case without looking.</span></li>
+    </ul>
+    <div class="grid">
+      <div class="card mint"><h3>Good target</h3><p class="small">Build increment, decrement, and reset. Check that each button does what you expect.</p></div>
+      <div class="card gold"><h3>Not today's target</h3><p class="small">Memorize all of React, learn a new framework, or stay up all night. Keep the scope small.</p></div>
+    </div>
+    <div class="callout"><b>Keep the scope kind:</b> the internship search feels urgent, but today's task is smaller: refresh one React pattern, then take the next step with a rested head.</div>
+    <div class="footer"><span>React interview refresh</span><span>01 / 05</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span class="brand">Interview Reset</span><span>01 - Read the JavaScript</span></div>
+    <h2>Syntax decoder: only what the counter uses</h2>
+    <p class="muted">Treat these as patterns to recognize, not a list to memorize. Read the symbol, say what it does, then keep going.</p>
+    <div class="grid">
+      <div class="card"><h3>const</h3><p class="small">Creates a named binding. Use it for values you do not reassign.</p><span class="search">const start = 0;</span></div>
+      <div class="card"><h3>Array destructuring</h3><p class="small">Pulls the two returned items into names: current value, then setter.</p><span class="search">const [count, setCount] = useState(0)</span></div>
+      <div class="card"><h3>Function</h3><p class="small">Defines work to run later. Parentheses call it now.</p><span class="search">function handleClick() { ... }</span></div>
+      <div class="card"><h3>Arrow function</h3><p class="small">A compact function. This one receives current and returns the next value.</p><span class="search">current =&gt; current + 1</span></div>
+      <div class="card"><h3>JSX braces</h3><p class="small">Inside JSX, braces let you use a JavaScript value or expression.</p><span class="search">&lt;p&gt;{count}&lt;/p&gt;</span></div>
+      <div class="card"><h3>Equals signs</h3><p class="small">One equals assigns a value. Three equals compare values.</p><span class="search">count = 0  /  count === 0</span></div>
+    </div>
+    <h3 style="margin-top:21px">The easy-to-mix-up part</h3>
+    <div class="code">function handleIncrease() {
+  setCount(current =&gt; current + 1);
+}
+
+&lt;button onClick={handleIncrease}&gt;Add one&lt;/button&gt;</div>
+    <div class="callout"><b>Read it out loud:</b> Define a function. When the button is clicked, React calls it. The setter receives a function that calculates the next count from the current count.</div>
+    <div class="grid">
+      <div class="card mint"><h3>Pass the function</h3><p class="small"><code>onClick={handleIncrease}</code> means "run this after a click."</p></div>
+      <div class="card gold"><h3>Do not call it during render</h3><p class="small"><code>onClick={handleIncrease()}</code> runs it immediately while React is rendering.</p></div>
+    </div>
+    <p class="small muted">If a symbol blanks, search the exact phrase: <span class="search">JavaScript arrow function</span> <span class="search">array destructuring</span> <span class="search">React onClick pass function</span>. Prefer MDN or react.dev, then explain the line in your own words.</p>
+    <div class="footer"><span>React interview refresh</span><span>02 / 05</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span class="brand">Interview Reset</span><span>02 - Understand React</span></div>
+    <h2>The four pieces you need</h2>
+    <div class="grid">
+      <div class="card"><h3>Component</h3><p class="small">A JavaScript function with a capitalized name that returns JSX.</p><span class="search">function Counter() { ... }</span></div>
+      <div class="card"><h3>JSX</h3><p class="small">Markup-like syntax inside JavaScript. Use braces to put a JS value into the UI.</p><span class="search">&lt;output&gt;{count}&lt;/output&gt;</span></div>
+      <div class="card"><h3>State</h3><p class="small">A component's changing memory. Updating it asks React to render again.</p><span class="search">const [count, setCount] = useState(0)</span></div>
+      <div class="card"><h3>Event handler</h3><p class="small">A function passed to a UI event such as a button click.</p><span class="search">onClick={handleIncrement}</span></div>
+    </div>
+    <h2 style="margin-top:24px">A small component shape</h2>
+    <div class="code"><span class="key">import</span> { useState } from 'react';
+
+<span class="key">function</span> Counter() {
+  <span class="key">const</span> [count, setCount] = useState(0);
+
+  <span class="key">return</span> (
+    &lt;main&gt;
+      &lt;h1&gt;Counter&lt;/h1&gt;
+      &lt;p&gt;{count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;
+        Add one
+      &lt;/button&gt;
+    &lt;/main&gt;
+  );
+}</div>
+    <div class="callout"><b>Read this in plain English:</b> Start count at zero. Show it. When the button is clicked, calculate the next count. React updates the screen.</div>
+    <h3>Remember these small rules</h3>
+    <div class="pill-row"><span class="pill">Component names start uppercase</span><span class="pill">Call hooks at the top level</span><span class="pill">Use {count} to show a value</span><span class="pill">Pass a handler; do not call it</span></div>
+    <p class="small muted" style="margin-top:18px">React's <a href="https://react.dev/learn/your-first-component">Your First Component</a> and <a href="https://react.dev/reference/react/useState">useState reference</a> are good search destinations.</p>
+    <div class="footer"><span>React interview refresh</span><span>03 / 05</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span class="brand">Interview Reset</span><span>03 - Counter reference</span></div>
+    <h2>Complete example: count up, down, reset</h2>
+    <p class="muted">Read it once, then rebuild it from memory. The updater form <code>current =&gt; current + 1</code> makes it clear that the next value comes from the previous value.</p>
+    <div class="code">import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  function handleIncrease() {
+    setCount(current =&gt; current + 1);
+  }
+
+  function handleDecrease() {
+    setCount(current =&gt; current - 1);
+  }
+
+  function handleReset() {
+    setCount(0);
+  }
+
+  return (
+    &lt;main&gt;
+      &lt;h1&gt;Counter&lt;/h1&gt;
+      &lt;p aria-live="polite"&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={handleDecrease}&gt;Decrease&lt;/button&gt;
+      &lt;button onClick={handleReset}&gt;Reset&lt;/button&gt;
+      &lt;button onClick={handleIncrease}&gt;Increase&lt;/button&gt;
+    &lt;/main&gt;
+  );
+}</div>
+    <h3>Build it in this order</h3>
+    <ol class="steps">
+      <li>Write a <code>Counter</code> component that returns a heading and a button.</li>
+      <li>Add <code>useState(0)</code>. Render <code>count</code> between the heading and button.</li>
+      <li>Pass a click handler to the button. Use the setter to increase the count.</li>
+      <li>Add decrease and reset. Test each button; narrate what state changes.</li>
+    </ol>
+    <div class="grid">
+      <div class="card mint"><h3>If the prompt says "never below zero"</h3><p class="small">Use <code>setCount(current =&gt; Math.max(0, current - 1))</code>, or disable Decrease when <code>count === 0</code>.</p></div>
+      <div class="card"><h3>If the prompt stays simple</h3><p class="small">Do not add features before the basic counter works. Get the requested behavior working, then ask whether they'd like an edge case.</p></div>
+    </div>
+    <p class="small muted" style="margin-top:16px">For the state setter and updater function, see the official <a href="https://react.dev/reference/react/useState">React useState reference</a>.</p>
+    <div class="footer"><span>React interview refresh</span><span>04 / 05</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline"><span class="brand">Interview Reset</span><span>04 - Interview rhythm</span></div>
+    <h2>When you get the prompt</h2>
+    <ol class="steps">
+      <li><b>Clarify.</b> "Should the count start at zero? Can it go below zero? Do you want reset?"</li>
+      <li><b>Plan.</b> "I'll keep the number in state and use click handlers to update it."</li>
+      <li><b>Build the smallest version.</b> Show the count and make one button work first.</li>
+      <li><b>Test aloud.</b> Click increase, decrease, reset. Check the starting value and any stated boundary.</li>
+      <li><b>Polish if time allows.</b> Use clear names and native buttons. Explain any tradeoff.</li>
+    </ol>
+    <h2 style="margin-top:22px">Common slips to catch</h2>
+    <table class="mistakes">
+      <thead><tr><th>Slip</th><th>Quick correction</th></tr></thead>
+      <tbody>
+        <tr><td>Changing a normal variable</td><td>Use the state setter so React knows to render again.</td></tr>
+        <tr><td><code>onClick={handleClick()}</code></td><td>Pass the function: <code>onClick={handleClick}</code>.</td></tr>
+        <tr><td>Displaying text but not the value</td><td>Use braces in JSX: <code>&lt;p&gt;{count}&lt;/p&gt;</code>.</td></tr>
+        <tr><td>Hook inside a condition or handler</td><td>Call <code>useState</code> at the top level of the component.</td></tr>
+        <tr><td>Trying to do everything at once</td><td>Get one behavior working, then add the next.</td></tr>
+      </tbody>
+    </table>
+    <h2 style="margin-top:22px">Useful searches during the interview</h2>
+    <div class="pill-row"><span class="search">React useState official docs</span><span class="search">React responding to events onClick</span><span class="search">React JSX display variable</span><span class="search">React conditional rendering</span></div>
+    <p class="small muted" style="margin-top:14px">Search for the exact thing you need. Prefer <a href="https://react.dev/learn/responding-to-events">react.dev/learn/responding-to-events</a> and the useState reference. Google is a reference tool; use it to check a detail, then explain and write the code yourself.</p>
+    <div class="last"><strong>Keep this in mind:</strong> he has built React before. The interview asks for a small demonstration of fundamentals, not proof that he remembers every API. One working counter and a clear explanation are a solid goal.</div>
+    <div class="footer"><span>React interview refresh</span><span>05 / 05</span></div>
+  </section>
+</body>
+</html>

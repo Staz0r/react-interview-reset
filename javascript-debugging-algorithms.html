@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript Debugging and Algorithms - Interview Quick Guide</title>
+  <style>
+    :root{--ink:#172033;--muted:#536078;--violet:#6047d8;--deep:#4530b0;--pale:#f1efff;--mint:#e7f7f1;--line:#dce1eb;--amber:#fff6e3}
+    *{box-sizing:border-box}body{margin:0;background:#e9edf4;color:var(--ink);font:10pt/1.47 "Segoe UI",Arial,sans-serif}
+    .page{width:8.5in;min-height:11in;margin:22px auto;padding:.62in .68in .58in;position:relative;background:#fff;box-shadow:0 9px 32px #1c29421a;page-break-after:always}.page:last-child{page-break-after:auto}
+    .top{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:8pt;font-weight:800}.brand{color:var(--violet)}
+    h1,h2,h3,p{margin-top:0}h1{font-size:29pt;line-height:1.04;letter-spacing:-.04em;margin:25px 0 8px}h2{font-size:19pt;line-height:1.1;letter-spacing:-.03em;margin:21px 0 9px}h3{font-size:10.5pt;margin:0 0 5px}p{margin-bottom:7px}.lede{font-size:11pt;color:var(--muted);max-width:6.3in}.small{font-size:8.3pt}.muted{color:var(--muted)}
+    .rhythm{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:15px 0}.rhythm div{border:1px solid var(--line);background:#fafaff;border-radius:9px;padding:9px}.rhythm b{display:block;color:var(--deep);font-size:8.5pt;margin-bottom:3px}.rhythm span{font-size:7.7pt;color:var(--muted)}
+    .syntax-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0}.syntax{border:1px solid var(--line);border-radius:9px;padding:8px 10px}.syntax h3{color:var(--deep)}.syntax p{font-size:8.2pt;margin:0 0 4px}.syntax code,.tag{font:7.7pt Consolas,"Cascadia Code",monospace;background:#f2f4f8;border-radius:4px;padding:3px 5px}
+    .card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:9px 0}.callout{background:var(--mint);border-left:4px solid #31936d}.warn{background:var(--amber);border-color:#f0dfb9}.code{margin:6px 0 0;padding:9px 11px;border:1px solid #cbd3df;border-radius:8px;background:#f2f4f8;color:#172033;font:7.7pt/1.35 Consolas,"Cascadia Code",monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+    .checks{display:grid;grid-template-columns:1fr 1fr;gap:5px 12px;padding:0;list-style:none;margin:7px 0 0}.checks li:before{content:"□ ";color:var(--violet);font-weight:800}.footer{position:absolute;bottom:.3in;left:.68in;right:.68in;padding-top:7px;border-top:1px solid var(--line);color:#7b8496;display:flex;justify-content:space-between;font-size:8pt}
+    .exercise{border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin:10px 0}.exercise h3{font-size:11pt;color:var(--deep)}.exercise .goal{margin-bottom:5px}.examples{padding:7px 9px;background:#f7f8fb;border-radius:7px;font:8pt/1.45 Consolas,"Cascadia Code",monospace}.hint{color:var(--muted);font-size:8.1pt;margin:6px 0 0}.links{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}.links a{color:var(--deep);text-decoration:none;border-bottom:1px solid #b9b0fa;font-size:8.2pt}
+    @page{size:letter;margin:0}@media print{body{background:#fff}.page{margin:0;box-shadow:none;break-after:page}.page:last-child{break-after:auto}}
+    @media screen and (max-width:700px){.page{width:auto;height:auto;min-height:100vh;margin:0;padding:24px}.footer{position:static;margin-top:25px}.rhythm{grid-template-columns:1fr 1fr}.syntax-grid{grid-template-columns:1fr}}
+    @media screen and (max-width:420px){.page{padding:18px 15px}.rhythm,.checks{grid-template-columns:1fr}h1{font-size:26pt}}
+  </style>
+</head>
+<body>
+  <section class="page">
+    <div class="top"><span class="brand">Interview Reset</span><span>JavaScript basics - 01 / 02</span></div>
+    <h1>Debug one thing at a time.</h1>
+    <p class="lede">For a small JavaScript problem, the interviewer is watching how he reasons. He can look up syntax. He should make the input, output, and steps clear.</p>
+    <div class="rhythm">
+      <div><b>1. Clarify</b><span>What goes in? What must come back?</span></div>
+      <div><b>2. Example</b><span>Try a normal case and an edge case by hand.</span></div>
+      <div><b>3. Implement</b><span>Start with the simplest correct steps.</span></div>
+      <div><b>4. Test aloud</b><span>Run examples; trace values if one fails.</span></div>
+    </div>
+    <h2>Small syntax kit</h2>
+    <div class="syntax-grid">
+      <div class="syntax"><h3>Name a value</h3><p><code>const</code> for a value you won't reassign; <code>let</code> for a changing total or loop index.</p><code>const item = items[i];</code></div>
+      <div class="syntax"><h3>Define a function</h3><p>Parameters are the inputs; <code>return</code> gives the answer back.</p><code>function solve(items) { ... }</code></div>
+      <div class="syntax"><h3>Loop through an array</h3><p>Indexes start at zero. Stop before the length.</p><code>for (let i = 0; i &lt; items.length; i++)</code></div>
+      <div class="syntax"><h3>Choose a case</h3><p><code>if</code> runs a block when its condition is true. Use strict equality to compare.</p><code>if (item === target) { ... }</code></div>
+      <div class="syntax"><h3>Build an answer</h3><p>Update an accumulator or add a result to an array.</p><code>total += value;</code> &nbsp; <code>result.push(value);</code></div>
+      <div class="syntax"><h3>Return at the right time</h3><p>Return early when found; otherwise finish the loop first.</p><code>return answer;</code></div>
+    </div>
+    <div class="card warn"><h3>Common bug: returning during the first loop pass</h3>
+      <div class="code">for (let i = 0; i &lt; numbers.length; i++) {
+  total += numbers[i];
+  return total; // stops after one item
+}
+return total; // put this after the loop</div>
+    </div>
+    <div class="card callout"><h3>When a test fails</h3>
+      <ul class="checks">
+        <li>Read the first error line carefully.</li><li>Check spelling and capitalization.</li>
+        <li>Log the input and current value.</li><li>Check loop bounds and return placement.</li>
+        <li>Test empty, one-item, and normal inputs.</li><li>Fix the smallest cause, then rerun all tests.</li>
+      </ul>
+    </div>
+    <p class="small muted">Google is useful for syntax and error messages. Search for the exact construct, prefer MDN, then explain and adapt it yourself. Avoid relying on a copied solution you can't walk through.</p>
+    <div class="footer"><span>JavaScript debugging and algorithms</span><span>01 / 02</span></div>
+  </section>
+
+  <section class="page">
+    <div class="top"><span class="brand">Interview Reset</span><span>Practice patterns - 02 / 02</span></div>
+    <h2>Three small problems to rehearse</h2>
+    <p class="muted">Do them in order. Try each before opening the interactive lab's hint or sample solution.</p>
+    <div class="exercise">
+      <h3>1. Sum the positive numbers</h3>
+      <p class="goal">Write <code>sumPositive(numbers)</code>. Return the sum of values greater than zero. If none are positive, return zero.</p>
+      <div class="examples">sumPositive([3, -2, 5])  →  8<br>sumPositive([])  →  0<br>sumPositive([-4, 0])  →  0</div>
+      <p class="hint"><b>Think:</b> start a total at 0; loop; add only when a value is positive; return after the loop.</p>
+    </div>
+    <div class="exercise">
+      <h3>2. Count vowels</h3>
+      <p class="goal">Write <code>countVowels(text)</code>. Count a, e, i, o, u regardless of case. An empty string returns zero.</p>
+      <div class="examples">countVowels("React")  →  2<br>countVowels("WHY")  →  0<br>countVowels("")  →  0</div>
+      <p class="hint"><b>Think:</b> normalize case once, visit each character, and increase a count when it is a vowel.</p>
+    </div>
+    <div class="exercise">
+      <h3>3. Find a pair that adds to a target</h3>
+      <p class="goal">Write <code>twoSum(numbers, target)</code>. Return the indexes of two different items that add to target. Return <code>[]</code> if no pair exists.</p>
+      <div class="examples">twoSum([2, 7, 11, 15], 9)  →  [0, 1]<br>twoSum([3, 3], 6)  →  [0, 1]<br>twoSum([1, 2], 8)  →  []</div>
+      <p class="hint"><b>Think:</b> compare each pair with two loops; start the second index at the first index plus one. A simple correct solution is a good start.</p>
+    </div>
+    <div class="card callout"><h3>Say what you're doing</h3>
+      <p class="small">“I’ll confirm the return format, try a small example, then write a direct solution. I’ll test the empty and boundary cases. If it fails, I’ll trace the loop index and current value.”</p>
+      <p class="small" style="margin-bottom:0">One focused round of these patterns is more useful than trying to memorize a long list of algorithms the night before.</p>
+    </div>
+    <div class="links">
+      <a href="javascript-practice-lab.html">Open the interactive JavaScript practice lab</a>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration">MDN loops</a>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return">MDN return</a>
+    </div>
+    <div class="footer"><span>JavaScript debugging and algorithms</span><span>02 / 02</span></div>
+  </section>
+</body>
+</html>
