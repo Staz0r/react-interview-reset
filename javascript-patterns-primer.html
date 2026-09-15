@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A short JavaScript Map and Set primer for an intern coding interview.">
+<title>JavaScript Patterns Primer | Interview Reset</title>
+<style>
+:root{--ink:#172033;--muted:#536078;--violet:#6047d8;--deep:#4530b0;--pale:#f1efff;--mint:#e7f7f1;--amber:#fff6e3;--line:#dce1eb}
+*{box-sizing:border-box}body{margin:0;background:#e9edf4;color:var(--ink);font:10pt/1.47 "Segoe UI",Arial,sans-serif}.page{width:8.5in;min-height:11in;margin:22px auto;padding:.62in .68in .58in;background:#fff;position:relative;box-shadow:0 9px 32px #1c29421a;page-break-after:always}.page:last-child{page-break-after:auto}.top{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:8pt;font-weight:800}.brand{color:var(--violet)}h1,h2,h3,p{margin-top:0}h1{font-size:29pt;line-height:1.04;letter-spacing:-.04em;margin:25px 0 8px}h2{font-size:19pt;line-height:1.1;letter-spacing:-.03em;margin:21px 0 9px}h3{font-size:10.5pt;margin:0 0 5px}p{margin-bottom:7px}.lede{font-size:11pt;color:var(--muted);max-width:6.3in}.small{font-size:8.3pt}.muted{color:var(--muted)}.callout{border:1px solid #cce9dd;border-left:4px solid #31936d;border-radius:10px;padding:11px 13px;background:var(--mint);margin:12px 0}.warn{border:1px solid #f0dfb9;border-radius:10px;padding:11px 13px;background:var(--amber);margin:12px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.card{border:1px solid var(--line);border-radius:10px;padding:10px 12px}.card h3{color:var(--deep)}.card p{font-size:8.3pt;margin:0}.code{margin:7px 0 0;padding:10px 11px;border:1px solid #cbd3df;border-radius:8px;background:#f2f4f8;color:#172033;font:7.7pt/1.4 Consolas,"Cascadia Code",monospace;white-space:pre-wrap;overflow-wrap:anywhere}.decision{width:100%;border-collapse:collapse;font-size:8.4pt;margin:9px 0}.decision th,.decision td{padding:7px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.decision th{color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-size:7.5pt}.steps{margin:8px 0;padding-left:20px}.steps li{padding:3px 0}.search{display:inline-block;padding:4px 7px;border-radius:5px;background:#f2f4f8;color:var(--deep);font:7.8pt Consolas,monospace}.footer{position:absolute;bottom:.3in;left:.68in;right:.68in;padding-top:7px;border-top:1px solid var(--line);color:#7b8496;display:flex;justify-content:space-between;font-size:8pt}@page{size:letter;margin:0}@media print{body{background:#fff}.page{margin:0;box-shadow:none;break-after:page}.page:last-child{break-after:auto}}@media screen and (max-width:700px){.page{width:auto;min-height:100vh;margin:0;padding:24px}.footer{position:static;margin-top:28px}.grid{grid-template-columns:1fr}}@media screen and (max-width:420px){.page{padding:18px 15px}h1{font-size:26pt}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/styles/github.min.css">
+<style>pre.code>code.hljs{display:block;padding:0;background:transparent;color:inherit;font:inherit;line-height:inherit;white-space:inherit;overflow-wrap:inherit}</style>
+</head>
+<body>
+<section class="page">
+  <div class="top"><span class="brand">Interview Reset</span><span>Optional pattern primer · 01 / 02</span></div>
+  <h1>Hashmaps without the fog.</h1>
+  <p class="lede">You do not need advanced algorithms for the interview described. This page gives you a small mental model for the two tools that often make an easy problem shorter: <code>Map</code> and <code>Set</code>.</p>
+  <div class="callout"><b>Use this as a five-minute explanation, then type one example.</b><br>Do not memorize every method. Remember the question each tool answers.</div>
+  <h2>Choose the tool by the question</h2>
+  <table class="decision"><thead><tr><th>If the problem asks…</th><th>Reach for…</th><th>Plain-English idea</th></tr></thead><tbody>
+    <tr><td>“Have I seen this value?”</td><td><code>Set</code></td><td>Keep one copy of each value and check membership quickly.</td></tr>
+    <tr><td>“How many times?” or “What belongs to this key?”</td><td><code>Map</code> or object</td><td>Store a key next to its count, index, or other value.</td></tr>
+    <tr><td>“Compare every pair” and the input is tiny</td><td>Two loops</td><td>The direct solution is fine. Clear code beats a clever trick.</td></tr>
+    <tr><td>“The data is sorted” or can be sorted</td><td>Sort + two pointers</td><td>Move one pointer from each side instead of checking every pair.</td></tr>
+  </tbody></table>
+  <div class="warn"><b>Interview scope:</b> Start with the direct two-loop <code>twoSum</code> solution in the lab. Treat the <code>Map</code> version below as an optional stretch and a way to explain a faster lookup.</div>
+  <h2>The core shapes</h2>
+  <div class="grid">
+    <div class="card"><h3>Set: remember values</h3><p><code>has</code> asks whether a value is already present. <code>add</code> remembers it.</p><pre class="code"><code class="language-javascript">const seen = new Set();
+if (seen.has(value)) {
+  return true; // duplicate found
+}
+seen.add(value);</code></pre></div>
+    <div class="card"><h3>Map: remember key → value</h3><p><code>get</code> reads a value. <code>set</code> stores one. The key can be a number or string.</p><pre class="code"><code class="language-javascript">const counts = new Map();
+const oldCount = counts.get(letter) || 0;
+counts.set(letter, oldCount + 1);</code></pre></div>
+  </div>
+  <h2>Three facts to say aloud</h2>
+  <ol class="steps"><li>“I will store information I have already seen.”</li><li>“For each item, I will look up the key I need.”</li><li>“This usually changes repeated searching from O(n²) to O(n), using extra memory.”</li></ol>
+  <p class="small muted">If the interviewer has not asked about complexity, one sentence is enough: “I trade some memory for a faster lookup.”</p>
+  <div class="footer"><span>JavaScript patterns primer</span><span>Optional · read before stretching</span></div>
+</section>
+<section class="page">
+  <div class="top"><span class="brand">Interview Reset</span><span>Optional pattern primer · 02 / 02</span></div>
+  <h2>Worked example: twoSum with a Map</h2>
+  <p class="muted">The lab’s nested-loop answer is completely acceptable for a small exercise. This version shows the lookup pattern: for the current number, ask whether its partner has already been seen.</p>
+  <pre class="code"><code class="language-javascript">function twoSum(numbers, target) {
+  const seen = new Map(); // number → index
+
+  for (let i = 0; i &lt; numbers.length; i++) {
+    const partner = target - numbers[i];
+    if (seen.has(partner)) {
+      return [seen.get(partner), i];
+    }
+    seen.set(numbers[i], i);
+  }
+
+  return [];
+}</code></pre>
+  <div class="grid">
+    <div class="card"><h3>Trace one example</h3><p><code>numbers = [2, 7, 11, 15]</code>, <code>target = 9</code></p><p class="small muted">At index 0, partner is 7; it is not seen, so store 2 → 0. At index 1, partner is 2; it is seen, so return [0, 1].</p></div>
+    <div class="card"><h3>What can go wrong?</h3><p>Store after checking, so an item cannot pair with itself. Return <code>[]</code> after the loop when no pair exists.</p></div>
+  </div>
+  <div class="callout"><b>Guided practice:</b> Open the JavaScript lab, solve <code>twoSum</code> with the two loops first, then come back and rewrite it with this Map shape if there is time. Say what the key and value represent.</div>
+  <h2>Search phrases you can use</h2>
+  <p><span class="search">JavaScript Map get set has example</span> <span class="search">JavaScript Set membership</span> <span class="search">two sum Map explanation</span></p>
+  <p class="small muted">Look up one method signature, adapt it, and test it. The goal is to recognize the pattern—not to recite a library manual.</p>
+  <div class="links"><a href="javascript-debugging-algorithms.html">Back to the main JavaScript guide</a> · <a href="javascript-practice-lab.html">Open the practice lab</a></div>
+  <div class="footer"><span>JavaScript patterns primer</span><span>Optional · one guided stretch</span></div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/highlight.min.js"></script><script>if(window.hljs)window.hljs.highlightAll();</script>
+</body></html>

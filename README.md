@@ -10,6 +10,7 @@ Live site: https://staz0r.github.io/react-interview-reset/
 - `quick-react-reset.html`: React counter interview guide
 - `react-structure-and-syntax.html`: React structure and JavaScript syntax companion
 - `javascript-debugging-algorithms.html`: debugging and algorithm quick guide
+- javascript-patterns-primer.html: optional Map, Set, and twoSum pattern primer
 - `javascript-practice-lab.html`: two debugging tasks and three algorithm exercises
 - `counter-practice/`: React counter playground with a JSX editor
 - `downloads/`: downloadable practice bundles
